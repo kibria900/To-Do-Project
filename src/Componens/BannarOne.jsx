@@ -16,7 +16,7 @@ const BannarOne = () => {
         theme: "dark",
         transition: Zoom,
     }) : 
-    toast.success('🦄 Wow so easy!', {
+    toast.success('🦄 Unbelievable Achievement!', {
     position: "top-right",
     autoClose: 1000,
     hideProgressBar: false,
