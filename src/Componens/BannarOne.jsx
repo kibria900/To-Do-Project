@@ -67,7 +67,7 @@ const BannarOne = () => {
 
     <>
 
-   <div className="flex items-center justify-center mt-20 bg-gradient-to-r from-blue-100 via-purple-100 to-pink-100 p-4">
+   <div className="flex items-center justify-center mt-16 bg-gradient-to-r from-blue-100 via-purple-100 to-pink-100 p-4">
   <form
     className="bg-white p-8 rounded-3xl shadow-2xl flex flex-col items-center gap-6 w-full max-w-md"
     onSubmit={handleSubmit}
@@ -75,11 +75,11 @@ const BannarOne = () => {
     <h2 className="text-3xl font-bold text-indigo-700 text-center">📝 To-Do Project</h2>
 
     <div className="w-full">
-      <label className="block text-sm font-medium text-gray-700 mb-1">Your Name</label>
+      <label className="block text-sm font-medium text-gray-700 mb-1">Name or Comment</label>
       <input
         type="text"
         onChange={handleChange}
-        placeholder="Enter your name"
+        placeholder="Enter your name or a short comment"
         className="px-4 py-3 border border-gray-300 rounded-xl w-full focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent transition"
       />
       {/* <h2 className='text-red-500'>{taskError}</h2> */}
