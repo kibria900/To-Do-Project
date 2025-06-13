@@ -87,8 +87,7 @@ const BannarOne = () => {
 
     <button
       type="submit"
-      className="w-full px-6 py-3 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 transition duration-300 font-medium shadow-md"
-    >
+      className="w-full px-6 py-3 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 transition duration-300 font-medium shadow-md">
       Submit
     </button>
   </form>
@@ -120,11 +119,8 @@ const BannarOne = () => {
         )
       })
     }
-
     </div>
 </div>
-
-
 </>
 
   );
