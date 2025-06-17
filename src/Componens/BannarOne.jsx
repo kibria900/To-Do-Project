@@ -1,6 +1,6 @@
 import React, { use, useEffect, useState } from 'react';
 import { ToastContainer, toast, Zoom } from 'react-toastify';
-import { getDatabase, ref, set , push ,onValue } from "firebase/database";
+import { getDatabase, ref, set , push ,onValue ,remove } from "firebase/database";
 
 const BannarOne = () => {
     const notify = () =>
@@ -42,27 +42,40 @@ const BannarOne = () => {
                    todoname:task,
                 }).then(() =>{
                   notify()
+                  setTask("")
                 })
               );
 
             }
     }
-    useEffect(() =>{
-        const db = getDatabase();
-    const todoRaf = ref(db,'todo/');
-    onValue(todoRaf, (snapshot) => {
-      const data = snapshot.val();
-      const Arr = []
-      snapshot.forEach((item) =>{
-        Arr.push(item.val())
-        setTaskData(Arr)
-      })
+  useEffect(() => {
+  const db = getDatabase();
+  const todoRaf = ref(db, 'todo/');
+  onValue(todoRaf, (snapshot) => {
+    const Arr = [];
+    snapshot.forEach((item) => {
+      Arr.push({value:item.val(),id:item.key        
+      });
     });
-    },[])
+    setTaskData(Arr);
+  });
+}, []);
     const handleChange =(e) =>{
         setTask(e.target.value);
         setTaskError("")
     }
+
+    const handleDelete = (id) => {
+  const db = getDatabase();
+  remove(ref(db, 'todo/' + id)).then(() => {
+    toast.warn('🗑️ Task Deleted!', {
+      position: "top-right",
+      autoClose: 1000,
+      theme: "dark",
+      transition: Zoom,
+    });
+  });
+};
   return (
 
     <>
@@ -77,6 +90,7 @@ const BannarOne = () => {
     <div className="w-full">
       <label className="block text-sm font-medium text-gray-700 mb-1">Name or Comment</label>
       <input
+        value={task}
         type="text"
         onChange={handleChange}
         placeholder="Enter your name or a short comment"
@@ -107,20 +121,38 @@ const BannarOne = () => {
   />
 </div>
 
-<div className="p-4 ">
+<div className="p-4">
   <h2 className="text-[40px] font-semibold mb-4 text-center text-amber-500">Your Tasks</h2>
-  <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4'>
+  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
     {
-      taskData.map((itme) =>{
-        return(
-          <div className="bg-white border border-amber-400 text-gray-800 shadow-lg rounded-lg p-4 text-center hover:bg-amber-100 transition">
-            <p className="text-md font-medium">📝 {itme.todoname} </p>
+      taskData.map((itme, index) => (
+        <div key={index} className="bg-white border border-amber-400 text-gray-800 shadow-lg rounded-lg p-4 hover:bg-amber-100 transition flex flex-col justify-center items-center h-40">
+          
+          {/* Centered Text */}
+          <p className="text-md  font-medium mb-4 text-center">📝 {itme.value.todoname}</p>
+
+          {/* Buttons */}
+          <div className="flex justify-center gap-3 mt-auto">
+            <button 
+              className="bg-green-500 hover:bg-green-600 text-white px-4 py-1 rounded-lg text-sm transition"
+              onClick={() => handleEdit(itme)}
+            >
+              Edit
+            </button>
+            <button 
+              className="bg-red-500 hover:bg-red-600 text-white px-4 py-1 rounded-lg text-sm transition"
+              onClick={() => handleDelete(itme.id)}
+            >
+              Delete
+            </button>
           </div>
-        )
-      })
+        </div>
+      ))
     }
-    </div>
+  </div>
 </div>
+
+
 </>
 
   );
